@@ -14,6 +14,7 @@
     <bean name="serializerMessageConverter" class="org.springframework.amqp.support.converter.SimpleMessageConverter"/>
     <bean name="messagePropertiesConverter" class="org.springframework.amqp.rabbit.support.DefaultMessagePropertiesConverter"/>
 
+    <!-- RPC -->
     <bean name="RPCListener" class="com.example.mq.RPCListener"/>
 
     <rabbit:queue name="RPC" auto-delete="false" durable="true" exclusive="false"/>
@@ -22,5 +23,20 @@
                                connection-factory="connectionFactory"
                                acknowledge="manual">
         <rabbit:listener ref="RPCListener" queue-names="RPC"/>
+    </rabbit:listener-container>
+
+    <!-- Routing -->
+    <bean name="RoutingListener" class="com.example.mq.RoutingListener"/>
+
+    <rabbit:queue id="Routing"/>
+
+    <rabbit:direct-exchange name="notice-exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="Routing" key="Notice"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener ref="RoutingListener" queues="Routing"/>
     </rabbit:listener-container>
 </beans>

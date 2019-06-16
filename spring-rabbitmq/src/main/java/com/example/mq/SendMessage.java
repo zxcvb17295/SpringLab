@@ -29,4 +29,15 @@ public class SendMessage {
             return e.getMessage();
         }
     }
+
+    public String sendToRouting(String message) {
+        try {
+            message = (message == null) ? "default" : message;
+            amqpTemplate.convertAndSend("notice-exchange", "Notice", message);
+            return "Send Message: '" + message + "' , Success!";
+        } catch (Exception e) {
+            System.out.println(e);
+            return e.getMessage();
+        }
+    }
 }

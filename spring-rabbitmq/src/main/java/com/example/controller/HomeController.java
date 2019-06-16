@@ -21,4 +21,10 @@ public class HomeController {
     public String send(@PathVariable(value = "name", required = false) String name) {
         return service.sendToRPC(name);
     }
+
+    @RequestMapping(value = {"/routing", "/routing/{message}"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String routing(@PathVariable(value = "message", required = false) String message) {
+        return service.sendToRouting(message);
+    }
 }
