@@ -1,4 +1,4 @@
-package com.example.springbootjasypt;
+package com.example;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.springframework.boot.SpringApplication;
